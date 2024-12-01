@@ -1,6 +1,4 @@
 from pathlib import Path
-import shutil as sh
-import re 
 import os
 from helper import copy_file, ProcessText
 
@@ -22,9 +20,11 @@ if to_copy:
 
 text_processed = ProcessText()
 
-list_phone, list_email, list_website = text_processed.scan_file("example_email.txt")
+text_processed.scan_file("example_email.txt")
 
-text_processed.create_file(list_phone, type="phones")
-text_processed.create_file(list_email, type="emails")
-text_processed.create_file(list_website, type="websites")
+list_types = ["phones", "emails", "websites"]
+
+for type in list_types:
+    text_processed.create_file(type=type)
+
 

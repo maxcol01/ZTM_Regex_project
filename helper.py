@@ -19,6 +19,7 @@ class ProcessText:
         regex_pn = r"\(?\d{3}\)?[- ]\d{3}[- ]\d{4}"
         regex_email = r"([\w\.]+@\w+\.(com|net|org))"
         regex_ws = r"(^|\s)(\w+\.(com|net|org))"
+
         with open(text, mode="r") as file:
             content = file.readlines()
             for line in content:
@@ -28,12 +29,17 @@ class ProcessText:
                    self.list_email.append(re.search(regex_email, line).group())
                 elif re.search(regex_ws, line):
                     self.list_website.append(re.search(regex_ws, line).group())
-        return self.list_phone, self.list_email, self.list_website
-    
 
     
-    def create_file(self, list_file, type):
-        for item in list_file:
+    
+    def create_file(self, type):
+        list_looped = {
+            "phones":self.list_phone,
+            "emails":self.list_email,
+            "websites":self.list_website
+        }.get(type, None)
+
+        for item in list_looped:
             with open(f"{type}.txt", mode="a") as storage_file:
                 storage_file.write(f"{item}\n")
 
